@@ -5,8 +5,12 @@ import java.util.*;
 
 public class Main {
 
+    static int Count = 0;
+    static int max = 0;
     public static void main(String[] args) {
 
+        System.out.print("Loading");
+        slowPrint(".....", 250);
         try {
             clearConsole();
         } catch (InterruptedException e) {
@@ -14,10 +18,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.print("Loading");
-        slowPrint(".....", 250);
-
-        System.out.println("\n*****Welcome to the Eurojackpot Simulator****");
+        System.out.println("\t\t\t\t*****Welcome to the Eurojackpot Simulator****\n");
 
         while (true) {
             List<Integer> myRow = new ArrayList<>();
@@ -34,7 +35,7 @@ public class Main {
                 try {
                     parsedInput = Integer.parseInt(input);
                 } catch (NumberFormatException e) {
-
+                    System.out.println("Enter a valid number");
                 }
                 if ((myRow.size() < 5) && (parsedInput > 0) && (parsedInput <= 50) && (!myRow.contains(parsedInput))) {
                     myRow.add(parsedInput);
@@ -49,6 +50,9 @@ public class Main {
 
             System.out.println("\nHow many simulations would you like to run? <1-2147483647>");
             int numberOfLoops = 0;
+
+
+
             while (true) {
                 try {
                     numberOfLoops = Integer.parseInt(scanner.nextLine());
@@ -64,24 +68,28 @@ public class Main {
                     numberOfLoops = 0;
                 }
             }
+
+//            Progress p = new Progress();
+//            p.processing(numberOfLoops);
+
             List<Integer> countEachIterationList = new ArrayList<>();
             for (int i = 0; i < numberOfLoops; i++) {
                 ArrayList<Integer> winningRow = generateRow();
-
-                int count = 0;
+                Count = i;
+                int countMatches = 0;
 
                 Iterator<Integer> winningRowIterator = winningRow.iterator();
                 Iterator<Integer> myRowIterator = myRow.iterator();
                 while (winningRowIterator.hasNext()) {
                     int myNum = myRowIterator.next();
                     if (myNum == winningRowIterator.next()) {
-                        count++;
+                        countMatches++;
                     }
                 }
-                countEachIterationList.add(count);
+                countEachIterationList.add(countMatches);
 
             }
-            System.out.println("You ran " + numberOfLoops + " iterations");
+            System.out.println("\nYou ran " + numberOfLoops + " iterations");
             System.out.println("This is equal to playing the Eurojackpot each week for " + numberOfLoops / 52 + " years");
             System.out.println("Number of 0 " + countNumOccurences(countEachIterationList, 0));
             System.out.println("Number of 1 " + countNumOccurences(countEachIterationList, 1));
@@ -142,5 +150,35 @@ public class Main {
     public static void clearConsole() throws IOException, InterruptedException {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
+
+//    public static class Progress {
+//        Thread t;
+//        public void processing(int max) {
+//            t = new Thread(() -> {
+//                System.out.print("Processing---------");
+//                for (int i = 0; i <= 100; i++) {
+//                    int x = (Count*100)/max;
+//                    System.out.print(x);
+//                    if (i < 10) {
+//                        System.out.print(i + "%");
+//                        System.out.print("\b\b");
+//                    } else if (i >= 10 && i <= 99) {
+//                        System.out.print(i + "%");
+//                        System.out.print("\b\b\b");
+//                    }
+//                    if(i == 100){
+//                        System.out.print(i + "%");
+//                    }
+//                    try {
+//                        t.sleep(10);
+//                    } catch (Exception e) {
+//                    }
+//
+//                }
+//            });
+//            t.start();
+//        }
+//
+//    }
 
 }
