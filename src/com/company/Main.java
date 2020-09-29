@@ -27,25 +27,33 @@ public class Main {
             if ((myRow.size() < 5) && (parsedInput > 0) && (parsedInput <= 50) && (!myRow.contains(parsedInput))) {
                 myRow.add(parsedInput);
             } else if ((myRow.size() >= 5) && (parsedInput > 0) && (parsedInput <= 10)) {
-                if(!lastTwoNumbers.contains(parsedInput)) {
+                if (!lastTwoNumbers.contains(parsedInput)) {
                     myRow.add(parsedInput);
                     lastTwoNumbers.add(parsedInput);
                 }
             }
 
-            System.out.println("Size: " + myRow.size());
+            //  System.out.println("Size: " + myRow.size());
         }
         System.out.println("Your row: " + myRow);
 
-        System.out.println("\nHow many simulations would you like to run?");
+        System.out.println("\nHow many simulations would you like to run? <1-2147483647>");
         int numberOfLoops = 0;
-        try {
-            numberOfLoops = Integer.parseInt(scanner.nextLine());
+        while (true) {
+            try {
+                numberOfLoops = Integer.parseInt(scanner.nextLine());
 
-        } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
 
+            }
+            if (numberOfLoops > 0 && numberOfLoops < Integer.MAX_VALUE) {
+                break;
+            } else {
+                System.out.println("Specify a correct number of times to loop");
+                numberOfLoops = 0;
+            }
         }
-
+        List<Integer> countEachIterationList = new ArrayList<>();
         for (int i = 0; i < numberOfLoops; i++) {
             ArrayList<Integer> winningRow = generateRow();
 
@@ -59,8 +67,34 @@ public class Main {
                     count++;
                 }
             }
-            System.out.println(count);
+            countEachIterationList.add(count);
+
+//            switch (count) {
+//                case 0:
+//                case 1:
+//                case 2:
+//                case 3:
+//                case 4:
+//                    break;
+//                case 5:
+//                case 6:
+//                    System.out.println("Count " + count);
+//                    break;
+//                case 7:
+//                    System.out.println("You won JackPot!");
+//            }
         }
+        System.out.println("You ran " + numberOfLoops + " iterations");
+        System.out.println("This is equal to playing Eurojackpot each week for " + numberOfLoops / 52 + " years");
+        System.out.println("Number of 0 " + countNumOccurences(countEachIterationList, 0));
+        System.out.println("Number of 1 " + countNumOccurences(countEachIterationList, 1));
+        System.out.println("Number of 2 " + countNumOccurences(countEachIterationList, 2));
+        System.out.println("Number of 3 " + countNumOccurences(countEachIterationList, 3));
+        System.out.println("Number of 4 " + countNumOccurences(countEachIterationList, 4));
+        System.out.println("Number of 5 " + countNumOccurences(countEachIterationList, 5));
+        System.out.println("Number of 6 " + countNumOccurences(countEachIterationList, 6));
+        System.out.println("Number of 7 " + countNumOccurences(countEachIterationList, 7));
+
 
     }
 
@@ -75,5 +109,15 @@ public class Main {
             myRow.add(nextRand);
         }
         return myRow;
+    }
+
+    private static int countNumOccurences(List<Integer> numList, int searchInt) {
+        int count = 0;
+        for (Integer i : numList) {
+            if (i == searchInt) {
+                count++;
+            }
+        }
+        return count;
     }
 }
