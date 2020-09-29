@@ -7,7 +7,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ArrayList<Integer> myRow = new ArrayList<>();
+        List<Integer> myRow = new ArrayList<>();
+        List<Integer> lastTwoNumbers = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
         String instructions = "Enter 5 numbers 1-50";
@@ -23,12 +24,15 @@ public class Main {
             } catch (NumberFormatException e) {
 
             }
-            if ((myRow.size() <= 5) && (parsedInput > 0) && (parsedInput <= 50) && (!myRow.contains(parsedInput))) {
+            if ((myRow.size() < 5) && (parsedInput > 0) && (parsedInput <= 50) && (!myRow.contains(parsedInput))) {
                 myRow.add(parsedInput);
+            } else if ((myRow.size() >= 5) && (parsedInput > 0) && (parsedInput <= 10)) {
+                if(!lastTwoNumbers.contains(parsedInput)) {
+                    myRow.add(parsedInput);
+                    lastTwoNumbers.add(parsedInput);
+                }
             }
-            if ((myRow.size() > 5) && (parsedInput > 0) && (parsedInput <= 10)) {
-                myRow.add(parsedInput);
-            }
+
             System.out.println("Size: " + myRow.size());
         }
         System.out.println("Your row: " + myRow);
