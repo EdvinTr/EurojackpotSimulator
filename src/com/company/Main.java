@@ -1,6 +1,5 @@
 package com.company;
 
-import java.io.IOException;
 import java.util.*;
 
 public class Main {
@@ -11,11 +10,8 @@ public class Main {
 
         System.out.print(loading);
         slowPrint(".....", 250);
-        try {
-            clearScreen();
-        } catch (IOException e) {
+        clearScreen();
 
-        }
         System.out.println("\n*****Welcome to the Eurojackpot Simulator****");
 
         while (true) {
@@ -43,10 +39,8 @@ public class Main {
                         lastTwoNumbers.add(parsedInput);
                     }
                 }
-
-                //  System.out.println("Size: " + myRow.size());
             }
-            System.out.println(AnsiColor.ANSI_GREEN + "Your row: " + AnsiColor.ANSI_RESET + myRow);
+            System.out.println("Your row: " + myRow);
 
             System.out.println("\nHow many simulations would you like to run? <1-2147483647>");
             int numberOfLoops = 0;
@@ -58,7 +52,7 @@ public class Main {
 
                 }
                 if (numberOfLoops > 0 && numberOfLoops < Integer.MAX_VALUE) {
-                    System.out.println(AnsiColor.ANSI_RED + "Executing..." + AnsiColor.ANSI_RESET);
+                    System.out.println("Executing...");
                     break;
                 } else {
                     System.out.println("Specify a correct number of times to loop");
@@ -135,7 +129,8 @@ public class Main {
         }
     }
 
-    public static void clearScreen() throws IOException {
-        Runtime.getRuntime().exec("cls");
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
