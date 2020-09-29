@@ -1,62 +1,68 @@
 package com.company;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Random;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        //LinkedHashSet<Integer> myRow = generateRow();
-        LinkedHashSet<Integer> myRow = new LinkedHashSet<>();
-        LinkedHashSet<Integer> winningRow = generateRow();
+        ArrayList<Integer> myRow = new ArrayList<>();
 
-//        for (Integer integer : myRow) {
-//            System.out.print(integer + " ");
-//        }
-//        System.out.println();
-//        for (Integer i : winningRow) {
-//            System.out.print(i + " ");
-//        }
-//        System.out.println();
         Scanner scanner = new Scanner(System.in);
-        String instructions = myRow.size() < 5 ? "Enter 5 numbers 1-50" : "Enter 2 numbers 1-10";
+        String instructions = "Enter 5 numbers 1-50";
         System.out.println(instructions);
         while (myRow.size() < 7) {
             if (myRow.size() == 5) {
-                System.out.println(instructions);
+                System.out.println("Enter 2 numbers 1-10");
             }
             String input = scanner.nextLine();
-            int parsedInput = Integer.parseInt(input);
-            if ((myRow.size() < 5) && (parsedInput <= 50) && (parsedInput > 0)) {
+            int parsedInput = 0;
+            try {
+                parsedInput = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+
+            }
+            if ((myRow.size() <= 5) && (parsedInput > 0) && (parsedInput <= 50) && (!myRow.contains(parsedInput))) {
                 myRow.add(parsedInput);
             }
-            if ((myRow.size() >= 5) && (parsedInput <= 10) && (parsedInput > 0)) {
+            if ((myRow.size() > 5) && (parsedInput > 0) && (parsedInput <= 10)) {
                 myRow.add(parsedInput);
             }
-            System.out.println(myRow.size());
+            System.out.println("Size: " + myRow.size());
         }
         System.out.println("Your row: " + myRow);
-        int count = 0;
 
-        Iterator<Integer> winningRowIterator = winningRow.iterator();
-        Iterator<Integer> myRowIterator = myRow.iterator();
-        while (winningRowIterator.hasNext()) {
-            int myNum = myRowIterator.next();
-            if (myNum == winningRowIterator.next()) {
-                count++;
-            }
+        System.out.println("\nHow many simulations would you like to run?");
+        int numberOfLoops = 0;
+        try {
+            numberOfLoops = Integer.parseInt(scanner.nextLine());
+
+        } catch (NumberFormatException e) {
+
         }
-        System.out.println(count);
 
+        for (int i = 0; i < numberOfLoops; i++) {
+            ArrayList<Integer> winningRow = generateRow();
+
+            int count = 0;
+
+            Iterator<Integer> winningRowIterator = winningRow.iterator();
+            Iterator<Integer> myRowIterator = myRow.iterator();
+            while (winningRowIterator.hasNext()) {
+                int myNum = myRowIterator.next();
+                if (myNum == winningRowIterator.next()) {
+                    count++;
+                }
+            }
+            System.out.println(count);
+        }
 
     }
 
-    private static LinkedHashSet<Integer> generateRow() {
+    private static ArrayList<Integer> generateRow() {
         Random rand = new Random();
-        LinkedHashSet<Integer> myRow = new LinkedHashSet<>();
+        ArrayList<Integer> myRow = new ArrayList<>();
 
         int bounds;
         while (myRow.size() < 7) {
