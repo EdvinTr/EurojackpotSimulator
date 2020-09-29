@@ -1,16 +1,21 @@
 package com.company;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        String loading = "Loading";
-
-        System.out.print(loading);
+        try {
+            clearConsole();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.print("Loading");
         slowPrint(".....", 250);
-        clearScreen();
 
         System.out.println("\n*****Welcome to the Eurojackpot Simulator****");
 
@@ -133,4 +138,9 @@ public class Main {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
+
+    public static void clearConsole() throws IOException, InterruptedException {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+    }
+
 }
