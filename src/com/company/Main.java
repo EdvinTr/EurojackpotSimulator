@@ -64,38 +64,34 @@ public class Main {
                 }
             }
 
-            TreeMap<Integer, Integer> countEachIterationList = generateEmptyResultMap();
+            TreeMap<Integer, Integer> resultMap = generateEmptyResultMap();
             long startTime = System.nanoTime();
             for (int i = 0; i < numberOfLoops; i++) {
                 List<Integer> winningRow = generateRow();
                 int countMatches = 0;
 
-                Iterator<Integer> winningRowIterator = winningRow.iterator();
-                Iterator<Integer> myRowIterator = myRow.iterator();
-                while (winningRowIterator.hasNext()) {
-                    int myNum = myRowIterator.next();
-                    if (myNum == winningRowIterator.next()) {
+                for (int n = 0; n < winningRow.size(); n++) {
+                    if (myRow.get(n).equals(winningRow.get(n))) {
                         countMatches++;
                     }
                 }
-                int currentValue = countEachIterationList.get(countMatches) + 1;
-                countEachIterationList.put(countMatches, currentValue);
-
+                int currentValue = resultMap.get(countMatches) + 1;
+                resultMap.put(countMatches, currentValue);
             }
             long stopTime = System.nanoTime();
             double totalTimeElapsed = stopTime - startTime;
-            System.out.printf("Time Elapsed %.2f", totalTimeElapsed/1000000000);
+            System.out.printf("Time Elapsed %.2f", totalTimeElapsed / 1000000000);
 
             System.out.println("\nYou ran " + numberOfLoops + " iterations");
             System.out.println("This is equal to playing the Eurojackpot each week for " + numberOfLoops / 52 + " years");
-            System.out.println("Number of 0 " + countEachIterationList.get(0));
-            System.out.println("Number of 1 " + countEachIterationList.get(1));
-            System.out.println("Number of 2 " + countEachIterationList.get(2));
-            System.out.println("Number of 3 " + countEachIterationList.get(3));
-            System.out.println("Number of 4 " + countEachIterationList.get(4));
-            System.out.println("Number of 5 " + countEachIterationList.get(5));
-            System.out.println("Number of 6 " + countEachIterationList.get(6));
-            System.out.println("Number of 7 " + countEachIterationList.get(7));
+            System.out.println("Number of 0 " + resultMap.get(0));
+            System.out.println("Number of 1 " + resultMap.get(1));
+            System.out.println("Number of 2 " + resultMap.get(2));
+            System.out.println("Number of 3 " + resultMap.get(3));
+            System.out.println("Number of 4 " + resultMap.get(4));
+            System.out.println("Number of 5 " + resultMap.get(5));
+            System.out.println("Number of 6 " + resultMap.get(6));
+            System.out.println("Number of 7 " + resultMap.get(7));
 //            System.out.println("Number of 0 " + countNumOccurences(countEachIterationList, 0));
 //            System.out.println("Number of 1 " + countNumOccurences(countEachIterationList, 1));
 //            System.out.println("Number of 2 " + countNumOccurences(countEachIterationList, 2));
