@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-
-    static int Count = 0;
-    static int max = 0;
     public static void main(String[] args) {
 
         System.out.print("Loading");
@@ -51,8 +48,6 @@ public class Main {
             System.out.println("\nHow many simulations would you like to run? <1-2147483647>");
             int numberOfLoops = 0;
 
-
-
             while (true) {
                 try {
                     numberOfLoops = Integer.parseInt(scanner.nextLine());
@@ -69,13 +64,10 @@ public class Main {
                 }
             }
 
-//            Progress p = new Progress();
-//            p.processing(numberOfLoops);
-
-            List<Integer> countEachIterationList = new ArrayList<>();
+            TreeMap<Integer, Integer> countEachIterationList = generateEmptyResultMap();
+            long startTime = System.nanoTime();
             for (int i = 0; i < numberOfLoops; i++) {
-                ArrayList<Integer> winningRow = generateRow();
-                Count = i;
+                List<Integer> winningRow = generateRow();
                 int countMatches = 0;
 
                 Iterator<Integer> winningRowIterator = winningRow.iterator();
@@ -86,23 +78,36 @@ public class Main {
                         countMatches++;
                     }
                 }
-                countEachIterationList.add(countMatches);
+                int currentValue = countEachIterationList.get(countMatches) + 1;
+                countEachIterationList.put(countMatches, currentValue);
 
             }
+            long stopTime = System.nanoTime();
+            double totalTimeElapsed = stopTime - startTime;
+            System.out.printf("Time Elapsed %.2f", totalTimeElapsed/1000000000);
+
             System.out.println("\nYou ran " + numberOfLoops + " iterations");
             System.out.println("This is equal to playing the Eurojackpot each week for " + numberOfLoops / 52 + " years");
-            System.out.println("Number of 0 " + countNumOccurences(countEachIterationList, 0));
-            System.out.println("Number of 1 " + countNumOccurences(countEachIterationList, 1));
-            System.out.println("Number of 2 " + countNumOccurences(countEachIterationList, 2));
-            System.out.println("Number of 3 " + countNumOccurences(countEachIterationList, 3));
-            System.out.println("Number of 4 " + countNumOccurences(countEachIterationList, 4));
-            System.out.println("Number of 5 " + countNumOccurences(countEachIterationList, 5));
-            System.out.println("Number of 6 " + countNumOccurences(countEachIterationList, 6));
-            System.out.println("Number of 7 " + countNumOccurences(countEachIterationList, 7));
+            System.out.println("Number of 0 " + countEachIterationList.get(0));
+            System.out.println("Number of 1 " + countEachIterationList.get(1));
+            System.out.println("Number of 2 " + countEachIterationList.get(2));
+            System.out.println("Number of 3 " + countEachIterationList.get(3));
+            System.out.println("Number of 4 " + countEachIterationList.get(4));
+            System.out.println("Number of 5 " + countEachIterationList.get(5));
+            System.out.println("Number of 6 " + countEachIterationList.get(6));
+            System.out.println("Number of 7 " + countEachIterationList.get(7));
+//            System.out.println("Number of 0 " + countNumOccurences(countEachIterationList, 0));
+//            System.out.println("Number of 1 " + countNumOccurences(countEachIterationList, 1));
+//            System.out.println("Number of 2 " + countNumOccurences(countEachIterationList, 2));
+//            System.out.println("Number of 3 " + countNumOccurences(countEachIterationList, 3));
+//            System.out.println("Number of 4 " + countNumOccurences(countEachIterationList, 4));
+//            System.out.println("Number of 5 " + countNumOccurences(countEachIterationList, 5));
+//            System.out.println("Number of 6 " + countNumOccurences(countEachIterationList, 6));
+//            System.out.println("Number of 7 " + countNumOccurences(countEachIterationList, 7));
 
             System.out.println("Would you like to play again? - Y/N");
             if (scanner.nextLine().equalsIgnoreCase("N")) {
-                System.out.println("Existing Eurojackpot Simulator...");
+                System.out.println("Exiting Eurojackpot Simulator...");
                 break;
             }
         }
@@ -121,14 +126,22 @@ public class Main {
         return myRow;
     }
 
-    private static int countNumOccurences(List<Integer> numList, int searchInt) {
-        int count = 0;
-        for (Integer i : numList) {
-            if (i == searchInt) {
-                count++;
-            }
+//    private static int countNumOccurences(TreeMap<Integer, Integer> map, int searchInt) {
+//        int count = 0;
+//        for (Integer i : map) {
+//            if (i == searchInt) {
+//                count++;
+//            }
+//        }
+//        return count;
+//    }
+
+    private static TreeMap<Integer, Integer> generateEmptyResultMap() {
+        TreeMap<Integer, Integer> result = new TreeMap<>();
+        for (int i = 0; i < 8; i++) {
+            result.put(i, 0);
         }
-        return count;
+        return result;
     }
 
     private static void slowPrint(String message, long millisPerChar) {
@@ -142,43 +155,7 @@ public class Main {
         }
     }
 
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
     public static void clearConsole() throws IOException, InterruptedException {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
-
-//    public static class Progress {
-//        Thread t;
-//        public void processing(int max) {
-//            t = new Thread(() -> {
-//                System.out.print("Processing---------");
-//                for (int i = 0; i <= 100; i++) {
-//                    int x = (Count*100)/max;
-//                    System.out.print(x);
-//                    if (i < 10) {
-//                        System.out.print(i + "%");
-//                        System.out.print("\b\b");
-//                    } else if (i >= 10 && i <= 99) {
-//                        System.out.print(i + "%");
-//                        System.out.print("\b\b\b");
-//                    }
-//                    if(i == 100){
-//                        System.out.print(i + "%");
-//                    }
-//                    try {
-//                        t.sleep(10);
-//                    } catch (Exception e) {
-//                    }
-//
-//                }
-//            });
-//            t.start();
-//        }
-//
-//    }
-
 }
