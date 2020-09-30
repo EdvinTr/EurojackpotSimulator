@@ -15,7 +15,7 @@ public class Main {
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
-        System.out.println("*****Welcome to the Eurojackpot Simulator****\n");
+        System.out.println("*****Welcome to the EuroJackpot Simulator****\n");
 
         while (true) {
             List<Integer> myRow = new ArrayList<>();
@@ -79,12 +79,12 @@ public class Main {
             System.out.printf("Time Elapsed %.2fs", totalTimeElapsed / 1000000000);
 
             System.out.println("\nYou ran " + numberOfLoops + " iterations");
-            System.out.println("This is equal to playing the Eurojackpot each week for " + numberOfLoops / 52 + " years");
+            System.out.println("This is equal to playing the EuroJackpot each week for " + numberOfLoops / 52 + " years");
             printUserResult(resultMap, numberOfLoops);
 
             System.out.println("Would you like to play again? - Y/N");
             if (scanner.nextLine().equalsIgnoreCase("N")) {
-                System.out.println("Exiting Eurojackpot Simulator...");
+                System.out.println("Exiting EuroJackpot Simulator...");
                 break;
             }
         }
