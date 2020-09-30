@@ -10,9 +10,7 @@ public class Main {
         slowPrint(".....", 250);
         try {
             clearConsole();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
         System.out.println("\t\t\t\t*****Welcome to the Eurojackpot Simulator****\n");
@@ -44,14 +42,12 @@ public class Main {
                 }
             }
             System.out.println("Your row: " + myRow);
-
             System.out.println("\nHow many simulations would you like to run? <1-2147483647>");
             int numberOfLoops = 0;
 
             while (true) {
                 try {
                     numberOfLoops = Integer.parseInt(scanner.nextLine());
-
                 } catch (NumberFormatException e) {
 
                 }
@@ -63,7 +59,6 @@ public class Main {
                     numberOfLoops = 0;
                 }
             }
-
             TreeMap<Integer, Integer> resultMap = generateEmptyResultMap();
             long startTime = System.nanoTime();
             for (int i = 0; i < numberOfLoops; i++) {
@@ -84,23 +79,8 @@ public class Main {
 
             System.out.println("\nYou ran " + numberOfLoops + " iterations");
             System.out.println("This is equal to playing the Eurojackpot each week for " + numberOfLoops / 52 + " years");
-            System.out.println("Number of 0 " + resultMap.get(0));
-            System.out.println("Number of 1 " + resultMap.get(1));
-            System.out.println("Number of 2 " + resultMap.get(2));
-            System.out.println("Number of 3 " + resultMap.get(3));
-            System.out.println("Number of 4 " + resultMap.get(4));
-            System.out.println("Number of 5 " + resultMap.get(5));
-            System.out.println("Number of 6 " + resultMap.get(6));
-            System.out.println("Number of 7 " + resultMap.get(7));
-//            System.out.println("Number of 0 " + countNumOccurences(countEachIterationList, 0));
-//            System.out.println("Number of 1 " + countNumOccurences(countEachIterationList, 1));
-//            System.out.println("Number of 2 " + countNumOccurences(countEachIterationList, 2));
-//            System.out.println("Number of 3 " + countNumOccurences(countEachIterationList, 3));
-//            System.out.println("Number of 4 " + countNumOccurences(countEachIterationList, 4));
-//            System.out.println("Number of 5 " + countNumOccurences(countEachIterationList, 5));
-//            System.out.println("Number of 6 " + countNumOccurences(countEachIterationList, 6));
-//            System.out.println("Number of 7 " + countNumOccurences(countEachIterationList, 7));
-
+            printUserResult(resultMap);
+            
             System.out.println("Would you like to play again? - Y/N");
             if (scanner.nextLine().equalsIgnoreCase("N")) {
                 System.out.println("Exiting Eurojackpot Simulator...");
@@ -122,15 +102,11 @@ public class Main {
         return myRow;
     }
 
-//    private static int countNumOccurences(TreeMap<Integer, Integer> map, int searchInt) {
-//        int count = 0;
-//        for (Integer i : map) {
-//            if (i == searchInt) {
-//                count++;
-//            }
-//        }
-//        return count;
-//    }
+    private static void printUserResult(Map<Integer, Integer> result) {
+        for (Map.Entry<Integer,Integer> entry : result.entrySet())
+            System.out.println("Number of " + entry.getKey() +
+                    " " + entry.getValue());
+    }
 
     private static TreeMap<Integer, Integer> generateEmptyResultMap() {
         TreeMap<Integer, Integer> result = new TreeMap<>();
