@@ -1,6 +1,8 @@
 package com.company;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Main {
@@ -79,15 +81,14 @@ public class Main {
 
             System.out.println("\nYou ran " + numberOfLoops + " iterations");
             System.out.println("This is equal to playing the Eurojackpot each week for " + numberOfLoops / 52 + " years");
-            printUserResult(resultMap);
-            
+            printUserResult(resultMap, numberOfLoops);
+
             System.out.println("Would you like to play again? - Y/N");
             if (scanner.nextLine().equalsIgnoreCase("N")) {
                 System.out.println("Exiting Eurojackpot Simulator...");
                 break;
             }
         }
-
     }
 
     private static ArrayList<Integer> generateRow() {
@@ -102,10 +103,23 @@ public class Main {
         return myRow;
     }
 
-    private static void printUserResult(Map<Integer, Integer> result) {
-        for (Map.Entry<Integer,Integer> entry : result.entrySet())
-            System.out.println("Number of " + entry.getKey() +
-                    " " + entry.getValue());
+    private static void printUserResult(Map<Integer, Integer> result, int numberOfLoopsUsed) {
+        String pattern;
+        String formattedPercentage;
+        for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
+            double percentageResult = ((double) entry.getValue() / numberOfLoopsUsed) * 100;
+
+            if (percentageResult > 1) {
+                pattern = "#.#";
+            } else {
+                pattern = "#.###";
+            }
+            DecimalFormat df = new DecimalFormat(pattern);
+            df.setRoundingMode(RoundingMode.CEILING);
+            formattedPercentage = df.format(percentageResult);
+            System.out.printf("Number of %s %s || (%s%%)\n", entry.getKey(), entry.getValue(), formattedPercentage);
+        }
+
     }
 
     private static TreeMap<Integer, Integer> generateEmptyResultMap() {
