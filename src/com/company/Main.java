@@ -94,38 +94,37 @@ public class Main {
     private static ArrayList<Integer> generateRow() {
         Random rand = new Random();
         ArrayList<Integer> myRow = new ArrayList<>();
-        ArrayList<Integer> usedNumbers = new ArrayList<>();
-        ArrayList<Integer> lastTwoDigits = new ArrayList<>();
+        HashSet<Integer> usedNumbers = new HashSet<>();
         int bounds;
         while (myRow.size() < 7) {
             bounds = myRow.size() < 5 ? 50 : 10;
             int nextRand = rand.nextInt(bounds) + 1;
-            if (!usedNumbers.contains(nextRand)) {
+            if(myRow.size() == 5) {
+                usedNumbers.clear();
+            }
+            if(!usedNumbers.contains(nextRand)) {
                 myRow.add(nextRand);
                 usedNumbers.add(nextRand);
-            } else if (myRow.size() > 5 && !lastTwoDigits.contains(nextRand)) {
-                myRow.add(nextRand);
-                lastTwoDigits.add(nextRand);
             }
         }
         return myRow;
     }
 
     private static void printUserResult(Map<Integer, Integer> result, int numberOfLoopsUsed) {
-        String pattern;
+        String pattern = "";
         String formattedPercentage;
         for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
             double percentageResult = ((double) entry.getValue() / numberOfLoopsUsed) * 100;
 
             if (percentageResult > 1) {
                 pattern = "#.#";
-            } else {
-                pattern = "#.###";
+            } else if(percentageResult < 1) {
+                pattern = "#.#####";
             }
             DecimalFormat df = new DecimalFormat(pattern);
             df.setRoundingMode(RoundingMode.CEILING);
             formattedPercentage = df.format(percentageResult);
-            System.out.printf("Number of %s %s || (%s%%)\n", entry.getKey(), entry.getValue(), formattedPercentage);
+            System.out.printf("Number of [%s] | %s | (%s%%)\n", entry.getKey(), entry.getValue(), formattedPercentage);
         }
 
     }
