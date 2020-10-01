@@ -24,6 +24,9 @@ public class Main {
             String instructions = "Enter 5 numbers 1-50";
             System.out.println(instructions);
             while (myRow.size() < 7) {
+                if (myRow.size() != 0) {
+                    System.out.println(myRow);
+                }
                 if (myRow.size() == 5) {
                     System.out.println("Enter 2 numbers 1-10");
                 }
@@ -89,18 +92,6 @@ public class Main {
             }
         }
     }
-
-//    private static ArrayList<Integer> generateRow() {
-//        Random rand = new Random();
-//        ArrayList<Integer> myRow = new ArrayList<>();
-//        int bounds;
-//        while (myRow.size() < 7) {
-//            bounds = myRow.size() < 5 ? 50 : 10;
-//            int nextRand = rand.nextInt(bounds) + 1;
-//            myRow.add(nextRand);
-//        }
-//        return myRow;
-//    }
 
     private static ArrayList<Integer> generateRow() {
         Random rand = new Random();
